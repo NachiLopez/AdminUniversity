@@ -5,18 +5,7 @@ import com.AdminUniversity.DTO.Admin;
 
 public class Main {
     public static void main(String[] args) {
-        for (int i = 0; i < 10; i++) {
-            System.out.println(Admin.getInstanceAdmin().toString());
+        //Aquí se puede agregar un switch Case el cual evalue el tipo de usuario
 
-            //PRUEBA 7:52
-
-
-
-
-            //PRUEBA 7:56
-
-
-            // PRUEBA JMA
-        }
     }
 }
