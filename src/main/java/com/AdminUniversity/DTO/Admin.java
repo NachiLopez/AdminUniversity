@@ -1,14 +1,13 @@
 package com.AdminUniversity.DTO;
 
 
-import com.AdminUniversity.DAO.InterfaceAdmin;
 import lombok.ToString;
 
 @ToString
-public class Admin implements InterfaceAdmin {
+public class Admin extends AbstractUser {
 
     /*
-     * Aplicando el patron singleton, el cual me restringe la creacion a unica instancia de la clase
+     * applying the singleton pattern, which restric use a unique object in the class
      * */
 
     private static Admin instanceAdmin = null;
@@ -25,47 +24,47 @@ public class Admin implements InterfaceAdmin {
         return instanceAdmin;
     }
 
-    @Override
+
     public void addStudent(Student student) {
 
     }
 
-    @Override
+
     public void updateStudent(Student student) {
 
     }
 
-    @Override
+
     public void deleteStudent(Student student) {
 
     }
 
-    @Override
+
     public void addTeacher(Teacher teacher) {
 
     }
 
-    @Override
+
     public void updateTeacher(Teacher teacher) {
 
     }
 
-    @Override
+
     public void deleteTeacher(Teacher teacher) {
 
     }
 
-    @Override
+
     public void addCourse(Course course) {
 
     }
 
-    @Override
+
     public void updateCourse(Course course) {
 
     }
 
-    @Override
+
     public void deleteCourse(Course course) {
 
     }
