@@ -11,17 +11,13 @@ public class Admin extends AbstractUser {
      * */
 
     private static Admin instanceAdmin = null;
-    static  int cont = 0;
     public static synchronized Admin getInstanceAdmin() {
         if (instanceAdmin == null) {
             instanceAdmin = new Admin();
-            cont++;
-            System.out.println(cont);
         }
         return instanceAdmin;
     }
 
-// unnecessary
     public void addStudent(Student student) {
 
     }
