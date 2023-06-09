@@ -12,9 +12,6 @@ public class Admin extends AbstractUser {
 
     private static Admin instanceAdmin = null;
     static  int cont = 0;
-    private Admin(){
-
-    }
     public static synchronized Admin getInstanceAdmin() {
         if (instanceAdmin == null) {
             instanceAdmin = new Admin();
@@ -24,7 +21,7 @@ public class Admin extends AbstractUser {
         return instanceAdmin;
     }
 
-
+// unnecessary
     public void addStudent(Student student) {
 
     }
