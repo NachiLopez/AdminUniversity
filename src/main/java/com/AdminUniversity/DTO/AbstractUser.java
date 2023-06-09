@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 public abstract class AbstractUser {
-
+    private int id;
     private String user;
     private String password;
     private String email;
@@ -20,14 +20,5 @@ public abstract class AbstractUser {
     private String lastName;
     private String address;
     private Set<Course> courses;
-
-    public AbstractUser(String user, String password, String email, String firstName, String lastName, String address) {
-        this.user = user;
-        this.password = password;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-    }
 }
 
