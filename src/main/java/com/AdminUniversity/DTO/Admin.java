@@ -1,6 +1,7 @@
 package com.AdminUniversity.DTO;
 
 
+import com.AdminUniversity.repository.Repositories;
 import lombok.ToString;
 
 @ToString
@@ -24,12 +25,14 @@ public class Admin extends AbstractUser {
 
 
     public void updateStudent(Student student) {
-
+        if (student.getId()==null) throw new IllegalArgumentException();
+        Repositories.getInstance().getStudentRepository().save(student);
     }
 
 
     public void deleteStudent(Student student) {
-
+        if (student.getId()==null) throw new IllegalArgumentException();
+        Repositories.getInstance().getStudentRepository().delete(student);
     }
 
 
