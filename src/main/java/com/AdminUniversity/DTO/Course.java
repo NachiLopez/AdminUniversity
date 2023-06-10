@@ -7,7 +7,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @ToString
-public class Course implements InterfaceCourse {
+public class Course  {
     private static int nextId = 1;
     private int id;
     private String name;
@@ -19,24 +19,5 @@ public class Course implements InterfaceCourse {
     }
 
 
-    @Override
-    public void generateCourseReport() {
-
-    }
-
-    @Override
-    public void addStudent(Student student) {
-
-    }
-
-    @Override
-    public void removeStudent(Student student) {
-
-    }
-
-    @Override
-    public void removeTeacher(Teacher teacher) {
-
-    }
 }
 
