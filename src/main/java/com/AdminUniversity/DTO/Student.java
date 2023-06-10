@@ -10,10 +10,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Student extends AbstractUser implements InterfaceStudent {
     private static int nextIdStudent = 1;
+
+    @Deprecated
     private int idStudent;
 
     public Student(String user, String password, String email, String firstName, String lastName, String address) {
-        super(user, password, email, firstName, lastName, address);
         this.idStudent = nextIdStudent++;
     }
 
