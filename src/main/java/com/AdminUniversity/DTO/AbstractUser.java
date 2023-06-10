@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 public abstract class AbstractUser {
-    private int id;
+    private Integer id;
     private String user;
     private String password;
     private String email;
