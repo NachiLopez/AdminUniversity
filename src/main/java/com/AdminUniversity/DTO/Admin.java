@@ -3,6 +3,9 @@ package com.AdminUniversity.DTO;
 
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 @ToString
 public class Admin extends AbstractUser {
 
@@ -11,17 +14,18 @@ public class Admin extends AbstractUser {
      * */
 
     private static Admin instanceAdmin = null;
-    static  int cont = 0;
-    private Admin(){
 
+    private Admin(String user, String password, String email, String firstName, String lastName, String address ){
+        super(user, password, email, firstName, lastName, address);
     }
-    public static synchronized Admin getInstanceAdmin() {
+    public static synchronized Admin getInstanceAdmin(String user, String password, String email, String firstName, String lastName, String address) {
         if (instanceAdmin == null) {
-            instanceAdmin = new Admin();
-            cont++;
-            System.out.println(cont);
+            instanceAdmin = new Admin(user, password, email, firstName, lastName, address);
         }
         return instanceAdmin;
     }
+
+
+
 
 }

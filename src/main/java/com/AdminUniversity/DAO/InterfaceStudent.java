@@ -3,8 +3,8 @@ package com.AdminUniversity.DAO;
 import com.AdminUniversity.DTO.Course;
 
 public interface InterfaceStudent {
-    int average();
-    void generateStudentReport();
-    void suscribeCourse(Course course);
-    void unsuscribeCourse(Course course);
+    public double average();
+    public void generateStudentReport();
+    public void suscribeCourse(Course course);
+    public void unsuscribeCourse(Course course);
 }
