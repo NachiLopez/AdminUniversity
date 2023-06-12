@@ -4,6 +4,9 @@ package com.AdminUniversity.DTO;
 import com.AdminUniversity.repository.Repositories;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 @ToString
 public class Admin extends AbstractUser {
 
@@ -12,56 +15,14 @@ public class Admin extends AbstractUser {
      * */
 
     private static Admin instanceAdmin = null;
-    public static synchronized Admin getInstanceAdmin() {
+
+    private Admin(String user, String password, String email, String firstName, String lastName, String address ){
+        super(user, password, email, firstName, lastName, address);
+    }
+    public static synchronized Admin getInstanceAdmin(String user, String password, String email, String firstName, String lastName, String address) {
         if (instanceAdmin == null) {
-            instanceAdmin = new Admin();
+            instanceAdmin = new Admin(user, password, email, firstName, lastName, address);
         }
         return instanceAdmin;
-    }
-
-    public void addStudent(Student student) {
-
-    }
-
-
-    public void updateStudent(Student student) {
-        if (student.getId()==null) throw new IllegalArgumentException();
-        Repositories.getInstance().getStudentRepository().save(student);
-    }
-
-
-    public void deleteStudent(Student student) {
-        if (student.getId()==null) throw new IllegalArgumentException();
-        Repositories.getInstance().getStudentRepository().delete(student);
-    }
-
-
-    public void addTeacher(Teacher teacher) {
-
-    }
-
-
-    public void updateTeacher(Teacher teacher) {
-
-    }
-
-
-    public void deleteTeacher(Teacher teacher) {
-
-    }
-
-
-    public void addCourse(Course course) {
-
-    }
-
-
-    public void updateCourse(Course course) {
-
-    }
-
-
-    public void deleteCourse(Course course) {
-
-    }
+    }
 }

@@ -3,9 +3,9 @@ package com.AdminUniversity.DAO;
 import com.AdminUniversity.DTO.Student;
 import com.AdminUniversity.DTO.Teacher;
 public interface InterfaceCourse {
-    void generateCourseReport();
-    void addStudent(Student student);
-    void removeStudent(Student student);
-    void setTeacher(Teacher teacher);
-    void removeTeacher(Teacher teacher);
+    public void generateCourseReport();
+    public void addStudent(Student student);
+    public void removeStudent(Student student);
+    public void setTeacher(Teacher teacher);
+    public void removeTeacher(Teacher teacher);
 }

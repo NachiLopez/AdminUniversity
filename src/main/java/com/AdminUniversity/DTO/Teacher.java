@@ -2,7 +2,7 @@ package com.AdminUniversity.DTO;
 
 import com.AdminUniversity.DAO.InterfaceTeacher;
 
-public class Teacher extends AbstractUser implements InterfaceTeacher {
+public class Teacher extends AbstractUser  {
     private static int nextIdTeacher = 1;
 
     @Deprecated
@@ -12,13 +12,4 @@ public class Teacher extends AbstractUser implements InterfaceTeacher {
         this.idTeacher = nextIdTeacher++;
     }
 
-    @Override
-    public void generateTeacherReport() {
-
-    }
-
-    @Override
-    public void setCourse(Course course) {
-
-    }
 }

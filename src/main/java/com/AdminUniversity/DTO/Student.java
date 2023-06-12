@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Student extends AbstractUser implements InterfaceStudent {
+public class Student extends AbstractUser  {
     private static int nextIdStudent = 1;
 
     @Deprecated
@@ -18,23 +18,4 @@ public class Student extends AbstractUser implements InterfaceStudent {
         this.idStudent = nextIdStudent++;
     }
 
-    @Override
-    public int average() {
-        return 0;
-    }
-
-    @Override
-    public void generateStudentReport() {
-
-    }
-
-    @Override
-    public void suscribeCourse(Course course) {
-
-    }
-
-    @Override
-    public void unsuscribeCourse(Course course) {
-
-    }
 }
