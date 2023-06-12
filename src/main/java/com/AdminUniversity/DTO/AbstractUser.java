@@ -1,5 +1,6 @@
 package com.AdminUniversity.DTO;
 
+import com.AdminUniversity.repository.Repositories;
 import lombok.*;
 
 
@@ -7,15 +8,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
 
-import static com.AdminUniversity.Controller.AdminController.loginAdmin;
-import static com.AdminUniversity.Controller.TeacherController.loginTeacher;
-import static com.AdminUniversity.Controller.StudentController.loginStudent;
-
 
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @ToString
 public abstract class AbstractUser extends Identifiable {
     private String user;
@@ -37,35 +33,49 @@ public abstract class AbstractUser extends Identifiable {
     }
 
 
-    public static void loginSystem(AbstractUser user) {
+    public static void loginSystem() {
         Scanner sc = new Scanner(System.in);
-        menu();
-        System.out.println("Enter Option: ");
-        int option = sc.nextInt();
 
-        switch (option) {
-            case 1:
-                loginAdmin(user);
-                break;
+        ArrayList<AbstractUser> users = new ArrayList<>();
+        users.addAll(Repositories.getInstance().getAdminRepository().getDB());
+        users.addAll(Repositories.getInstance().getStudentRepository().getDB());
+        users.addAll(Repositories.getInstance().getTeacherRepository().getDB());
 
-            case 2:
-                loginTeacher(user);
+        System.out.println("ENTER CREDENTIALS!! ");
+        System.out.println("Enter the username: " );
+        String username = sc.next();
+        System.out.println("Enter Password: ");
+        String password = sc.next();
+
+        AbstractUser userLoggedIn=null;
+        for (AbstractUser currentUser : users) {
+            if (currentUser.getUser().equals(username) && currentUser.getPassword().equals(password)) {
+                userLoggedIn=currentUser;
                 break;
-            case 3:
-                loginStudent(user);
-                break;
-            default:
-                System.out.println("Invalid Option");
-                break;
+            }
         }
-    }
+
+        if (userLoggedIn!=null) {
+            System.out.println("SUCCESSFUL LOGIN!!");
 
 
-    public static void menu(){
-        System.out.println("OPTION MENUS:\n" +
-                "        1. Login Admin\n" +
-                "        2. Login Teacher\n" +
-                "        3. Login Student");
+            switch (userLoggedIn) {
+                case Admin admin -> {
+                    // todo: admin menu
+                }
+
+                case Teacher teacher -> {
+                    // todo: teacher menu
+                }
+
+                case Student student -> {
+                    // todo: student menu
+                }
+                default -> throw new IllegalStateException("Unexpected value: " + userLoggedIn);
+            }
+        } else {
+            System.out.println("INVALID CREDENTIALS");
+        }
     }
 
 

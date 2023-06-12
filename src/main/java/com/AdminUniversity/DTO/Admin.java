@@ -24,5 +24,6 @@ public class Admin extends AbstractUser {
             instanceAdmin = new Admin(user, password, email, firstName, lastName, address);
         }
         return instanceAdmin;
-    }
+
+    }
 }

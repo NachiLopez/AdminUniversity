@@ -9,6 +9,7 @@ public class Teacher extends AbstractUser  {
     private int idTeacher;
 
     public Teacher(String user, String password, String email, String firstName, String lastName, String address) {
+        super(user, password, email, firstName, lastName, address);
         this.idTeacher = nextIdTeacher++;
     }
 

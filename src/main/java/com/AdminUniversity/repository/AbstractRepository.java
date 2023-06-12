@@ -10,7 +10,7 @@ public abstract class AbstractRepository<U extends Identifiable> {
     public AbstractRepository() {
         database = new LinkedHashMap<>();
     }
-    public U save(U user) {
+    public synchronized U save(U user) {
         if (user.getId()==null) {
             // Es un usuario nuevo, se le asigna id
             int id = getLastId()+1;
