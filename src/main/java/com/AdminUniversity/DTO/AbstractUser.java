@@ -17,8 +17,7 @@ import static com.AdminUniversity.Controller.StudentController.loginStudent;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public abstract class AbstractUser {
-
+public abstract class AbstractUser extends Identifiable {
     private String user;
     private String password;
     private String email;
@@ -68,7 +67,6 @@ public abstract class AbstractUser {
                 "        2. Login Teacher\n" +
                 "        3. Login Student");
     }
-
 
 
 }

@@ -1,6 +1,7 @@
 package com.AdminUniversity.DTO;
 
 
+import com.AdminUniversity.repository.Repositories;
 import lombok.ToString;
 
 import java.util.ArrayList;
@@ -23,9 +24,5 @@ public class Admin extends AbstractUser {
             instanceAdmin = new Admin(user, password, email, firstName, lastName, address);
         }
         return instanceAdmin;
-    }
-
-
-
-
+    }
 }
