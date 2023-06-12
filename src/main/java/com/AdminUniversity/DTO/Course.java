@@ -7,7 +7,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @ToString
-public class Course extends Identifiable implements InterfaceCourse {
+public class Course extends Identifiable {
 
     private static int nextId = 1;
     private String name;
