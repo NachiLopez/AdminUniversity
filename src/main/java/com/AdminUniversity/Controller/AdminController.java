@@ -9,8 +9,14 @@ import java.util.Scanner;
 public class AdminController {
 
     public void addStudent(Student student) {
+        if(!Repositories.getInstance().getStudentRepository().getDB().contains(student)){
+            Repositories.getInstance().getStudentRepository().save(student);
+        } else {
+            System.out.println("This student already is in the database.");
+        }
         Repositories.getInstance().getStudentRepository().save(student);
     }
+
 
 
     public void updateStudent(Student student) {
@@ -34,14 +40,16 @@ public class AdminController {
 
 
     public void deleteTeacher(Teacher teacher) {
-
+        if (Repositories.getInstance().getTeacherRepository().getDB().contains(teacher)) {
+            Repositories.getInstance().getTeacherRepository().delete(teacher);
+        } else {
+            System.out.println("This teacher already is not in the database");
+        }
     }
-
 
     public void addCourse(Course course) {
 
     }
-
 
     public void updateCourse(Course course) {
 

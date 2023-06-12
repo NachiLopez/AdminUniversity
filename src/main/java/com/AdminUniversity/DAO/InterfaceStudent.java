@@ -1,10 +1,11 @@
 package com.AdminUniversity.DAO;
 
 import com.AdminUniversity.DTO.Course;
+import com.AdminUniversity.DTO.Student;
 
 public interface InterfaceStudent {
-    public double average();
-    public void generateStudentReport();
-    public void suscribeCourse(Course course);
-    public void unsuscribeCourse(Course course);
+    public double average(Student student, Course course);
+    public void generateStudentReport(Course course, Student student);
+    public void suscribeCourse(Course course, Student student);
+    public void unsuscribeCourse(Course course, Student student);
 }
