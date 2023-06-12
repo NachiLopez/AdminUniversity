@@ -56,28 +56,28 @@ public class AdminController {
             Scanner sc = new Scanner(System.in);
             ArrayList<AbstractUser> users = new ArrayList<>();
             Admin admin = (Admin) user;
-            System.out.println("Ingrese las credenciales!! ");
-            System.out.println("Ingrese el nombre de usuario ADMIN: " );
+            System.out.println("ENTER CREDENTIALS!! ");
+            System.out.println("Enter the ADMIN username: " );
             String username = sc.next();
-            System.out.println("Ingrese la contraseña: ");
+            System.out.println("Enter Password: ");
             String password = sc.next();
 
             users.add(admin);
 
-            boolean estadoLogin = false;
+            boolean loginState= false;
 
             for (int i = 0; i < users.size(); i++) {
                 AbstractUser currentUser = users.get(i);
                 if (currentUser.getUser().equals(username) && currentUser.getPassword().equals(password)) {
-                    estadoLogin = true;
+                    loginState = true;
                     break;
                 }
             }
 
-            if (estadoLogin) {
-                System.out.println("Inicio de sesión exitoso");
+            if (loginState) {
+                System.out.println("SUCCESSFUL LOGIN!!");
             } else {
-                System.out.println("Credenciales inválidas");
+                System.out.println("INVALID CREDENTIALS");
             }
         }
     }

@@ -41,10 +41,10 @@ public abstract class AbstractUser {
     public static void loginSystem(AbstractUser user) {
         Scanner sc = new Scanner(System.in);
         menu();
-        System.out.println("Ingrese la opción: ");
-        int opcion = sc.nextInt();
+        System.out.println("Enter Option: ");
+        int option = sc.nextInt();
 
-        switch (opcion) {
+        switch (option) {
             case 1:
                 loginAdmin(user);
                 break;
@@ -56,17 +56,17 @@ public abstract class AbstractUser {
                 loginStudent(user);
                 break;
             default:
-                System.out.println("Opción inválida");
+                System.out.println("Invalid Option");
                 break;
         }
     }
 
 
     public static void menu(){
-        System.out.println("MENU DE OPCIONES:\n" +
-                "        1. Inicio de sesión Admin\n" +
-                "        2. Inicio de sesión Teacher\n" +
-                "        3. Inicio de sesion Student");
+        System.out.println("OPTION MENUS:\n" +
+                "        1. Login Admin\n" +
+                "        2. Login Teacher\n" +
+                "        3. Login Student");
     }
 
 
