@@ -9,6 +9,6 @@ public interface InterfaceCourse {
     public void generateCourseReport(Course course);
     public void addStudent(Student student);
     public void removeStudent(Student student);
-    public void setTeacher(Teacher teacher);
-    public void removeTeacher(Teacher teacher);
+    public void setTeacher(Teacher teacher, Course course);
+    public void removeTeacher(Course course);
 }

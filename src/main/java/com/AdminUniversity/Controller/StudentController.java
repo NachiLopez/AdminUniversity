@@ -76,7 +76,12 @@ public class StudentController implements InterfaceStudent {
 
     @Override
     public void unsuscribeCourse(Course course, Student student) {
-
+        if(course.getStudents().contains(student)){
+            Repositories.getInstance().getStudentRepository().getById(student.getId()).getCoursesSubscribed().remove(student.getSpecificCourse(course, student));
+            course.getStudents().remove(student);
+        } else {
+            System.out.println("This student already is not in this course.");
+        }
     }
 
 

@@ -5,5 +5,5 @@ import com.AdminUniversity.DTO.Teacher;
 
 public interface InterfaceTeacher {
     public void generateTeacherReport(Teacher teacher);
-    public void setCourse(Course course);
+    public void setCourse(Course course, Teacher teacher);
 }
