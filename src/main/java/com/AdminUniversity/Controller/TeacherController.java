@@ -50,7 +50,11 @@ public class TeacherController implements InterfaceTeacher {
     }
 
     @Override
-    public void setCourse(Course course) {
-
+    public void setCourse(Course course, Teacher teacher) {
+        if(course.getTeacher() == null){
+            course.setTeacher(teacher);
+        } else {
+            System.out.println("The course " + course.getName() + " already has a teacher. First remove the actual teacher and after add a new teacher.");
+        }
     }
 }

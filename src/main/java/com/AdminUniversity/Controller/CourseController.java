@@ -15,8 +15,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 public class CourseController implements InterfaceCourse {
-
-
     @Override
     public void generateCourseReport(Course course) {
         Document document = new Document();
@@ -51,21 +49,37 @@ public class CourseController implements InterfaceCourse {
 
     @Override
     public void addStudent(Student student) {
-
+        if(!Repositories.getInstance().getStudentRepository().getDB().contains(student)){
+            Repositories.getInstance().getStudentRepository().save(student);
+        } else {
+            System.out.println("This student already is in this course");
+        }
     }
 
     @Override
     public void removeStudent(Student student) {
-
+        if(Repositories.getInstance().getStudentRepository().getDB().contains(student)){
+            Repositories.getInstance().getStudentRepository().delete(student);
+        } else {
+            System.out.println("This student already is not in this course");
+        }
     }
 
     @Override
-    public void setTeacher(Teacher teacher) {
-
+    public void setTeacher(Teacher teacher, Course course) {
+        if(course.getTeacher() == null){
+            course.setTeacher(teacher);
+        } else {
+            System.out.println("This course already has a teacher. First remove the actual teacher and after assign the new teacher");
+        }
     }
 
     @Override
-    public void removeTeacher(Teacher teacher) {
-
+    public void removeTeacher(Course course) {
+        if(course.getTeacher() != null){
+            course.setTeacher(null);
+        } else {
+            System.out.println("This course has not a teacher. Add a teacher.");
+        }
     }
 }
