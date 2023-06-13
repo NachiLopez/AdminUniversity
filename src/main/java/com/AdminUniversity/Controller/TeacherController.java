@@ -18,7 +18,7 @@ import java.util.Scanner;
 
 public class TeacherController implements InterfaceTeacher {
     @Override
-    public void generateTeacherReport(Teacher teacher) {
+    public void generateTeacherReport(Teacher teacher, boolean sendEmail) {
         Document document = new Document();
         String fileName = ("teacher_report_idTeacher" + teacher.getId() + ".pdf");
         String destiny = System.getProperty("user.home") + File.separator + "Documents" + File.separator + fileName;
@@ -47,6 +47,10 @@ public class TeacherController implements InterfaceTeacher {
 
             document.close();
             System.out.println("Teacher report generated successfully.");
+
+            if (sendEmail) {
+                EmailController.sendEmail(AbstractUser.getCurrentUser().getEmail(), "Course report", new File(destiny));
+            }
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (Exception e) {

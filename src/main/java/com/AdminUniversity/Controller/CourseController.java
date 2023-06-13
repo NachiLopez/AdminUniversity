@@ -1,10 +1,7 @@
 package com.AdminUniversity.Controller;
 
 import com.AdminUniversity.DAO.InterfaceCourse;
-import com.AdminUniversity.DTO.Course;
-import com.AdminUniversity.DTO.Student;
-import com.AdminUniversity.DTO.StudentCourse;
-import com.AdminUniversity.DTO.Teacher;
+import com.AdminUniversity.DTO.*;
 import com.AdminUniversity.repository.Repositories;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -16,7 +13,7 @@ import java.io.FileOutputStream;
 
 public class CourseController implements InterfaceCourse {
     @Override
-    public void generateCourseReport(Course course) {
+    public void generateCourseReport(Course course, boolean sendEmail) {
         Document document = new Document();
         String fileName = ("course_report_idCourse" + course.getId() + ".pdf");
         String destiny = System.getProperty("user.home") + File.separator + "Documents" + File.separator + fileName;
@@ -44,6 +41,10 @@ public class CourseController implements InterfaceCourse {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if (sendEmail) {
+            EmailController.sendEmail(AbstractUser.getCurrentUser().getEmail(), "Course report", new File(destiny));
         }
     }
 

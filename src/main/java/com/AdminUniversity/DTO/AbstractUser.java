@@ -16,6 +16,11 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString
 public abstract class AbstractUser extends Identifiable {
+
+    @Getter
+    @Setter
+    private static AbstractUser currentUser;
+
     private String user;
     private String password;
     private String email;
@@ -61,6 +66,7 @@ public abstract class AbstractUser extends Identifiable {
         }
 
         if (userLoggedIn!=null) {
+            currentUser=userLoggedIn;
             System.out.println("SUCCESSFUL LOGIN!!");
 
 
@@ -106,11 +112,14 @@ public abstract class AbstractUser extends Identifiable {
                                 ArrayList<Teacher> teacherss = adminController.getAllTeachers();
                                 System.out.println("3. Generate a Report of the Teachers");
 
+
                                 if (teacherss.isEmpty()) {
                                     System.out.println("Sorry, this list doesn't have any teachers!!");
                                 } else {
+                                    System.out.println("Send report to your email? yes/no");
+                                    boolean sendEmail = sc.next().equalsIgnoreCase("yes");
                                     for (Teacher tch : teacherss) {
-                                        teacherController.generateTeacherReport(tch);
+                                        teacherController.generateTeacherReport(tch, sendEmail);
                                     }
                                     System.out.println("Teacher reports generated successfully.");
                                 }
