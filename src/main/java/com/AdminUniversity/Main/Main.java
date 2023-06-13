@@ -15,11 +15,13 @@ import static com.AdminUniversity.DTO.AbstractUser.loginSystem;
 
 public class Main {
     public static void main(String[] args) {
-
-        Student student = new Student("test", "test", "", "", "", "");
+        AdminController adminController = new AdminController();
+        Student student = new Student("student", "123", "", "", "", "");
         new AdminController().addStudent(student);
-
-
-        AbstractUser.loginSystem();
+        Teacher teacher = new Teacher("teacher", "456", "", "", "", "");
+        new AdminController().addTeacher(teacher);
+        Admin admin = Admin.getInstanceAdmin("admin", "admin", "", "", "", "");
+        Repositories.getInstance().getAdminRepository().save(admin);
+        AbstractUser.loginSystem(adminController);
     }
 }
