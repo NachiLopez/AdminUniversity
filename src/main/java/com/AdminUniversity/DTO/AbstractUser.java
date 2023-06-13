@@ -1,6 +1,7 @@
 package com.AdminUniversity.DTO;
 
 import com.AdminUniversity.Controller.AdminController;
+import com.AdminUniversity.Controller.TeacherController;
 import com.AdminUniversity.repository.Repositories;
 import lombok.*;
 
@@ -41,6 +42,9 @@ public abstract class AbstractUser extends Identifiable {
         users.addAll(Repositories.getInstance().getAdminRepository().getDB());
         users.addAll(Repositories.getInstance().getStudentRepository().getDB());
         users.addAll(Repositories.getInstance().getTeacherRepository().getDB());
+        TeacherController teacherController = new TeacherController();
+        adminController.setTeacherController(teacherController);
+
 
         System.out.println("ENTER CREDENTIALS!! ");
         System.out.println("Enter the username: " );
@@ -88,8 +92,8 @@ public abstract class AbstractUser extends Identifiable {
                                 adminController.addTeacher(teacher);
                                 break;
                             case 2:
-                                System.out.println("2. Query a Teacher");
                                 ArrayList<Teacher> teachers = adminController.getAllTeachers();
+                                System.out.println("2. Query a Teacher");
                                 if (teachers.isEmpty()) {
                                     System.out.println("Sorry, this list don´t have any teachers!!");
                                 } else {
@@ -97,6 +101,20 @@ public abstract class AbstractUser extends Identifiable {
                                         System.out.println(teachers.get(i));
                                     }
                                 }
+                                break;
+                            case 3:
+                                ArrayList<Teacher> teacherss = adminController.getAllTeachers();
+                                System.out.println("3. Generate a Report of the Teachers");
+
+                                if (teacherss.isEmpty()) {
+                                    System.out.println("Sorry, this list doesn't have any teachers!!");
+                                } else {
+                                    for (Teacher tch : teacherss) {
+                                        teacherController.generateTeacherReport(tch);
+                                    }
+                                    System.out.println("Teacher reports generated successfully.");
+                                }
+
                                 break;
                             case 0:
                                 System.out.println("Thanks for use our system!!");

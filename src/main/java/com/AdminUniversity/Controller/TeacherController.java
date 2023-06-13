@@ -26,7 +26,7 @@ public class TeacherController implements InterfaceTeacher {
             PdfWriter.getInstance(document, new FileOutputStream(destiny));
             document.open();
 
-            document.add(new Paragraph("Student Report"));
+            document.add(new Paragraph("Teacher Report"));
             document.add(new Paragraph("ID Teacher: " + teacher.getId()));
             document.add(new Paragraph("Name: " + teacher.getFirstName() + " " + teacher.getLastName()));
             document.add(new Paragraph("User: " + teacher.getUser()));
@@ -34,10 +34,15 @@ public class TeacherController implements InterfaceTeacher {
             document.add(new Paragraph("Address: " + teacher.getAddress()));
             document.add(new Paragraph("-------------------------------------"));
             document.add(new Paragraph("Courses information"));
-            for (Course courses : teacher.getCourses()){
-                document.add(new Paragraph("Name of course: " + courses.getName()));
-                document.add(new Paragraph("ID Course: " + courses.getId()));
-                document.add(new Paragraph("-------------------------------------"));
+
+            if (teacher.getCourses() != null) {
+                for (Course course : teacher.getCourses()) {
+                    document.add(new Paragraph("Name of course: " + course.getName()));
+                    document.add(new Paragraph("ID Course: " + course.getId()));
+                    document.add(new Paragraph("-------------------------------------"));
+                }
+            } else {
+                document.add(new Paragraph("No courses found for this teacher."));
             }
 
             document.close();
@@ -48,6 +53,7 @@ public class TeacherController implements InterfaceTeacher {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void setCourse(Course course, Teacher teacher) {

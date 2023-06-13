@@ -8,7 +8,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class AdminController {
+    private TeacherController teacherController;
 
+    public void setTeacherController(TeacherController teacherController) {
+        this.teacherController = teacherController;
+    }
     public void addStudent(Student student) {
         if(!Repositories.getInstance().getStudentRepository().getDB().contains(student)){
             Repositories.getInstance().getStudentRepository().save(student);
