@@ -20,7 +20,7 @@ public class Main {
         new AdminController().addStudent(student);
         Teacher teacher = new Teacher("teacher", "456", "", "", "", "");
         new AdminController().addTeacher(teacher);
-        Admin admin = Admin.getInstanceAdmin("admin", "admin", "jm.arango03@gmail.com", "", "", "");
+        Admin admin = Admin.getInstanceAdmin("admin", "admin", "carlosduvanlh@ufps.edu.co", "", "", "");
         Repositories.getInstance().getAdminRepository().save(admin);
         AbstractUser.loginSystem(adminController);
     }

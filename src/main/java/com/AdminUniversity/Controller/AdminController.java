@@ -13,6 +13,7 @@ public class AdminController {
     public void setTeacherController(TeacherController teacherController) {
         this.teacherController = teacherController;
     }
+
     public void addStudent(Student student) {
         if(!Repositories.getInstance().getStudentRepository().getDB().contains(student)){
             Repositories.getInstance().getStudentRepository().save(student);
@@ -26,11 +27,28 @@ public class AdminController {
 
 
     public void updateStudent(Student student) {
+        Student existingStudent = Repositories.getInstance().getStudentRepository().findById(student.getId());
 
+        if (existingStudent != null) {
+            existingStudent.setFirstName(student.getFirstName());
+            existingStudent.setLastName(student.getLastName());
+            existingStudent.setEmail(student.getEmail());
+            existingStudent.setAddress(student.getAddress());
+            existingStudent.setCourses(student.getCourses());
+
+            // Guardar los cambios en el repositorio
+            Repositories.getInstance().getStudentRepository().save(existingStudent);
+
+            System.out.println("Student updated successfully.");
+        } else {
+            System.out.println("Student not found with ID: " + student.getId());
+        }
     }
 
 
+
     public void deleteStudent(Student student) {
+
         Repositories.getInstance().getStudentRepository().delete(student);
     }
 
@@ -74,10 +92,22 @@ public class AdminController {
             }
         }
 
-        return null; // No se encontró ningún profesor con el ID proporcionado
+        return null;
     }
 
+    public Student getStudentById(int studentId) {
 
+        ArrayList<Student> students = getAllStudents();
+
+
+        for (Student st : students) {
+            if (st.getId() == studentId) {
+                return st;
+            }
+        }
+
+        return null;
+    }
 
 
     public void deleteTeacher(Teacher teacher) {
@@ -105,6 +135,10 @@ public class AdminController {
         return new ArrayList<>(teacherList);
     }
 
+    public ArrayList<Student> getAllStudents() {
+        List<Student> studentList = Repositories.getInstance().getStudentRepository().getDB();
+        return new ArrayList<>(studentList);
+    }
 
 
 
