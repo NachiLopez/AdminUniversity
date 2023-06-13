@@ -116,6 +116,48 @@ public abstract class AbstractUser extends Identifiable {
                                 }
 
                                 break;
+                            case 4:
+
+                                System.out.println("Update a Teacher");
+
+                                // Solicitar al usuario el ID del profesor a actualizar
+                                System.out.println("Enter the ID of the teacher to update:");
+                                int teacherIdToUpdate = sc.nextInt();
+                                sc.nextLine(); // Limpiar el buffer de entrada
+
+                                // Buscar el profesor por su ID
+                                Teacher teacherToUpdate = adminController.getTeacherById(teacherIdToUpdate);
+
+
+                                if (teacherToUpdate == null) {
+                                    System.out.println("Teacher not found with ID: " + teacherIdToUpdate);
+                                } else {
+                                    // Solicitar al usuario los nuevos datos del profesor
+                                    System.out.println("Enter the new first name:");
+                                    String newFirstName = sc.nextLine();
+
+                                    System.out.println("Enter the new last name:");
+                                    String newLastName = sc.nextLine();
+
+                                    System.out.println("Enter the new email:");
+                                    String newEmail = sc.nextLine();
+
+                                    System.out.println("Enter the new address:");
+                                    String newAddress = sc.nextLine();
+
+                                    // Actualizar los datos del profesor
+                                    teacherToUpdate.setFirstName(newFirstName);
+                                    teacherToUpdate.setLastName(newLastName);
+                                    teacherToUpdate.setEmail(newEmail);
+                                    teacherToUpdate.setAddress(newAddress);
+
+                                    // Guardar los cambios en el repositorio
+                                    adminController.updateTeacher(teacherToUpdate);
+
+                                    System.out.println("Teacher updated successfully.");
+                                }
+
+                                break;
                             case 0:
                                 System.out.println("Thanks for use our system!!");
                                 login = false;

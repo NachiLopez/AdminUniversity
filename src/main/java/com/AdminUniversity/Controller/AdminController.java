@@ -45,8 +45,38 @@ public class AdminController {
 
 
     public void updateTeacher(Teacher teacher) {
+        Teacher existingTeacher = Repositories.getInstance().getTeacherRepository().findById(teacher.getId());
 
+        if (existingTeacher != null) {
+            existingTeacher.setFirstName(teacher.getFirstName());
+            existingTeacher.setLastName(teacher.getLastName());
+            existingTeacher.setEmail(teacher.getEmail());
+            existingTeacher.setAddress(teacher.getAddress());
+            existingTeacher.setCourses(teacher.getCourses());
+
+            // Guardar los cambios en el repositorio
+            Repositories.getInstance().getTeacherRepository().save(existingTeacher);
+
+            System.out.println("Teacher updated successfully.");
+        } else {
+            System.out.println("Teacher not found with ID: " + teacher.getId());
+        }
     }
+    public Teacher getTeacherById(int teacherId) {
+
+        ArrayList<Teacher> teachers = getAllTeachers();
+
+
+        for (Teacher teacher : teachers) {
+            if (teacher.getId() == teacherId) {
+                return teacher;
+            }
+        }
+
+        return null; // No se encontró ningún profesor con el ID proporcionado
+    }
+
+
 
 
     public void deleteTeacher(Teacher teacher) {
