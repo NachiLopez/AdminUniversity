@@ -1,5 +1,6 @@
 package com.AdminUniversity.DTO;
 
+import com.AdminUniversity.Controller.AdminController;
 import com.AdminUniversity.repository.Repositories;
 import lombok.*;
 
@@ -33,7 +34,7 @@ public abstract class AbstractUser extends Identifiable {
     }
 
 
-    public static void loginSystem() {
+    public static void loginSystem(AdminController adminController) {
         Scanner sc = new Scanner(System.in);
 
         ArrayList<AbstractUser> users = new ArrayList<>();
@@ -61,8 +62,55 @@ public abstract class AbstractUser extends Identifiable {
 
             switch (userLoggedIn) {
                 case Admin admin -> {
-                    // todo: admin menu
-                }
+                    boolean login =true;
+                    while (login){
+                        menuAdmin();
+                        System.out.println("ENTER THE OPTION: ");
+                        int option = sc.nextInt();
+
+                        switch (option) {
+                            case 1:
+                                System.out.println("1. Create a Teacher");
+                                System.out.println("Enter teacher details:");
+                                System.out.print("Username: ");
+                                String teacherUsername = sc.next();
+                                System.out.print("Password: ");
+                                String teacherPassword = sc.next();
+                                System.out.print("Email: ");
+                                String teacherEmail = sc.next();
+                                System.out.print("First Name: ");
+                                String teacherFirstName = sc.next();
+                                System.out.print("Last Name: ");
+                                String teacherLastName = sc.next();
+                                System.out.print("Address: ");
+                                String teacherAddress = sc.next();
+                                Teacher teacher = new Teacher(teacherUsername, teacherPassword, teacherEmail, teacherFirstName, teacherLastName, teacherAddress);
+                                adminController.addTeacher(teacher);
+                                break;
+                            case 2:
+                                System.out.println("2. Query a Teacher");
+                                ArrayList<Teacher> teachers = adminController.getAllTeachers();
+                                if (teachers.isEmpty()) {
+                                    System.out.println("Sorry, this list don´t have any teachers!!");
+                                } else {
+                                    for (int i = 0; i < teachers.size(); i++) {
+                                        System.out.println(teachers.get(i));
+                                    }
+                                }
+                                break;
+                            case 0:
+                                System.out.println("Thanks for use our system!!");
+                                login = false;
+                                break;
+
+                            default:
+                                System.out.println("INVALID OPTION!!");
+
+
+                         }
+                        }
+
+                    }
 
                 case Teacher teacher -> {
                     // todo: teacher menu
@@ -76,6 +124,35 @@ public abstract class AbstractUser extends Identifiable {
         } else {
             System.out.println("INVALID CREDENTIALS");
         }
+    }
+
+    public static void menuAdmin(){
+        System.out.println(
+
+                "OPTIONS MENU:\n" +
+                        "        ===============TEACHER===============\n" +
+                        "        1. Create a Teacher\n" +
+                        "        2. Query a Teacher\n" +
+                        "        3. Generate a Report of the Teachers\n" +
+                        "        4. Update a Teacher\n" +
+                        "        5. Delete a Teacher\n" +
+
+                        "        ===============STUDENT===============\n" +
+                        "        6. Create a Student\n" +
+                        "        7. Query a Student\n" +
+                        "        8. Generate a Report of the Students\n" +
+                        "        9. Update a Student\n" +
+                        "        10. Delete a Student\n" +
+
+                        "        ===============COURSE===============\n" +
+                        "        11. Assign a course to a teacher and students\n" +
+                        "        12. Add University grades \n" +
+                        "        13. Query University grades \n" +
+                        "        14. Update University grades \n" +
+                        "        15. Generate a Report of the University grades \n" +
+
+                        "        0. Salir\n" +
+                        "        ==============================");
     }
 
 

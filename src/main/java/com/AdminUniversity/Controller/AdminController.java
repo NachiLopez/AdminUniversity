@@ -4,6 +4,7 @@ import com.AdminUniversity.DTO.*;
 import com.AdminUniversity.repository.Repositories;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class AdminController {
@@ -30,7 +31,12 @@ public class AdminController {
 
 
     public void addTeacher(Teacher teacher) {
-
+        if(!Repositories.getInstance().getTeacherRepository().getDB().contains(teacher)){
+            Repositories.getInstance().getTeacherRepository().save(teacher);
+        } else {
+            System.out.println("This teacher already is in the database.");
+        }
+        Repositories.getInstance().getTeacherRepository().save(teacher);
     }
 
 
@@ -59,6 +65,11 @@ public class AdminController {
     public void deleteCourse(Course course) {
 
     }
+    public ArrayList<Teacher> getAllTeachers() {
+        List<Teacher> teacherList = Repositories.getInstance().getTeacherRepository().getDB();
+        return new ArrayList<>(teacherList);
+    }
+
 
 
 
