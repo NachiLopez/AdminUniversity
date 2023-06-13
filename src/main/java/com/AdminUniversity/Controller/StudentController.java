@@ -26,8 +26,8 @@ public class StudentController implements InterfaceStudent {
         String destiny = System.getProperty("user.home") + File.separator + "Documents" + File.separator + fileName;
 
         try {
-            for(StudentCourse sc : Repositories.getInstance().getStudentRepository().getById(student.getId()).getCoursesSubscribed()){
-                if(sc.getIdStudent() == student.getId() && sc.getIdCourse() == course.getId()){
+            for (StudentCourse sc : student.getCoursesSubscribed()) {
+                if (sc.getIdStudent() == student.getId() && sc.getIdCourse() == course.getId()) {
                     studentCourse = sc;
                     break;
                 }
@@ -46,26 +46,37 @@ public class StudentController implements InterfaceStudent {
             document.add(new Paragraph("Course information"));
             document.add(new Paragraph("ID Course: " + course.getId()));
             document.add(new Paragraph("Name course: " + course.getName()));
-            document.add(new Paragraph("Teacher of course: " + course.getTeacher().getFirstName() + " " + course.getTeacher().getLastName()));
-            document.add(new Paragraph("First note: " + studentCourse.getFirstNote()));
-            document.add(new Paragraph("Second note: " + studentCourse.getSecondNote()));
-            document.add(new Paragraph("Third note: " + studentCourse.getThirdNote()));
-            document.add(new Paragraph("Final note: " + studentCourse.getFinalNote()));
+
+            // Verificar si hay un profesor asignado al curso
+            if (course.getTeacher() != null) {
+                document.add(new Paragraph("Teacher of course: " + course.getTeacher().getFirstName() + " " + course.getTeacher().getLastName()));
+            } else {
+                document.add(new Paragraph("Teacher of course: N/A"));
+            }
+
+            // Agregar las notas del estudiante para el curso
+            if (studentCourse != null) {
+                document.add(new Paragraph("First note: " + studentCourse.getFirstNote()));
+                document.add(new Paragraph("Second note: " + studentCourse.getSecondNote()));
+                document.add(new Paragraph("Third note: " + studentCourse.getThirdNote()));
+                document.add(new Paragraph("Final note: " + studentCourse.getFinalNote()));
+            } else {
+                document.add(new Paragraph("No grades found for this student in the course."));
+            }
 
             document.close();
             System.out.println("Student report generated successfully.");
 
             if (sendEmail) {
-                EmailController.sendEmail(AbstractUser.getCurrentUser().getEmail(), "Student report", new File(destiny));
+                EmailController.sendEmail(student.getEmail(), "Student report", new File(destiny));
             }
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
+
 
 
     @Override
@@ -99,35 +110,6 @@ public class StudentController implements InterfaceStudent {
         return ((sc.getFirstNote() + sc.getSecondNote() + sc.getThirdNote() + sc.getFinalNote()) / 4);
     }
 
-    public static void loginStudent(AbstractUser user) {
-        if (user instanceof Student) {
-            Scanner sc = new Scanner(System.in);
-            ArrayList<AbstractUser> users = new ArrayList<>();
-            Student student = (Student) user;
-            System.out.println("ENTER CREDENTIALS!! ");
-            System.out.println("Enter the STUDENT username: " );
-            String username = sc.next();
-            System.out.println("Enter password: ");
-            String password = sc.next();
 
-            users.add(student);
-
-            boolean loginState = false;
-
-            for (int i = 0; i < users.size(); i++) {
-                AbstractUser currentUser = users.get(i);
-                if (currentUser.getUser().equals(username) && currentUser.getPassword().equals(password)) {
-                    loginState = true;
-                    break;
-                }
-            }
-
-            if (loginState) {
-                System.out.println("SUCCESSFUL LOGIN!!");
-            } else {
-                System.out.println("INVALID CREDENTIALS");
-            }
-        }
-    }
 
 }
