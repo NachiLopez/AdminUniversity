@@ -1,6 +1,7 @@
 package com.AdminUniversity.DTO;
 
 import com.AdminUniversity.Controller.AdminController;
+import com.AdminUniversity.Controller.TeacherController;
 import com.AdminUniversity.repository.Repositories;
 import lombok.*;
 
@@ -41,6 +42,9 @@ public abstract class AbstractUser extends Identifiable {
         users.addAll(Repositories.getInstance().getAdminRepository().getDB());
         users.addAll(Repositories.getInstance().getStudentRepository().getDB());
         users.addAll(Repositories.getInstance().getTeacherRepository().getDB());
+        TeacherController teacherController = new TeacherController();
+        adminController.setTeacherController(teacherController);
+
 
         System.out.println("ENTER CREDENTIALS!! ");
         System.out.println("Enter the username: " );
@@ -88,8 +92,8 @@ public abstract class AbstractUser extends Identifiable {
                                 adminController.addTeacher(teacher);
                                 break;
                             case 2:
-                                System.out.println("2. Query a Teacher");
                                 ArrayList<Teacher> teachers = adminController.getAllTeachers();
+                                System.out.println("2. Query a Teacher");
                                 if (teachers.isEmpty()) {
                                     System.out.println("Sorry, this list don´t have any teachers!!");
                                 } else {
@@ -97,6 +101,62 @@ public abstract class AbstractUser extends Identifiable {
                                         System.out.println(teachers.get(i));
                                     }
                                 }
+                                break;
+                            case 3:
+                                ArrayList<Teacher> teacherss = adminController.getAllTeachers();
+                                System.out.println("3. Generate a Report of the Teachers");
+
+                                if (teacherss.isEmpty()) {
+                                    System.out.println("Sorry, this list doesn't have any teachers!!");
+                                } else {
+                                    for (Teacher tch : teacherss) {
+                                        teacherController.generateTeacherReport(tch);
+                                    }
+                                    System.out.println("Teacher reports generated successfully.");
+                                }
+
+                                break;
+                            case 4:
+
+                                System.out.println("Update a Teacher");
+
+                                // Solicitar al usuario el ID del profesor a actualizar
+                                System.out.println("Enter the ID of the teacher to update:");
+                                int teacherIdToUpdate = sc.nextInt();
+                                sc.nextLine(); // Limpiar el buffer de entrada
+
+                                // Buscar el profesor por su ID
+                                Teacher teacherToUpdate = adminController.getTeacherById(teacherIdToUpdate);
+
+
+                                if (teacherToUpdate == null) {
+                                    System.out.println("Teacher not found with ID: " + teacherIdToUpdate);
+                                } else {
+                                    // Solicitar al usuario los nuevos datos del profesor
+                                    System.out.println("Enter the new first name:");
+                                    String newFirstName = sc.nextLine();
+
+                                    System.out.println("Enter the new last name:");
+                                    String newLastName = sc.nextLine();
+
+                                    System.out.println("Enter the new email:");
+                                    String newEmail = sc.nextLine();
+
+                                    System.out.println("Enter the new address:");
+                                    String newAddress = sc.nextLine();
+
+                                    // Actualizar los datos del profesor
+                                    teacherToUpdate.setFirstName(newFirstName);
+                                    teacherToUpdate.setLastName(newLastName);
+                                    teacherToUpdate.setEmail(newEmail);
+                                    teacherToUpdate.setAddress(newAddress);
+
+                                    // Guardar los cambios en el repositorio
+                                    adminController.updateTeacher(teacherToUpdate);
+
+                                    System.out.println("Teacher updated successfully.");
+                                }
+
                                 break;
                             case 0:
                                 System.out.println("Thanks for use our system!!");
