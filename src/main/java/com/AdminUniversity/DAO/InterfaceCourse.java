@@ -6,7 +6,7 @@ import com.AdminUniversity.DTO.Teacher;
 import com.AdminUniversity.repository.CourseRepository;
 
 public interface InterfaceCourse {
-    public void generateCourseReport(Course course);
+    public void generateCourseReport(Course course, boolean sendEmail);
     public void addStudent(Student student);
     public void removeStudent(Student student);
     public void setTeacher(Teacher teacher, Course course);

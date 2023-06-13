@@ -5,7 +5,7 @@ import com.AdminUniversity.DTO.Student;
 
 public interface InterfaceStudent {
     public double average(Student student, Course course);
-    public void generateStudentReport(Course course, Student student);
+    public void generateStudentReport(Course course, Student student, boolean sendEmail);
     public void suscribeCourse(Course course, Student student);
     public void unsuscribeCourse(Course course, Student student);
 }

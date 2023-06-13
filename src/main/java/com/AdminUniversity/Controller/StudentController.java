@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class StudentController implements InterfaceStudent {
 
     @Override
-    public void generateStudentReport(Course course, Student student) {
+    public void generateStudentReport(Course course, Student student, boolean sendEmail) {
         Document document = new Document();
         StudentCourse studentCourse = null;
         String fileName = ("student_report_idStudent" + student.getId() + ".pdf");
@@ -54,11 +54,17 @@ public class StudentController implements InterfaceStudent {
 
             document.close();
             System.out.println("Student report generated successfully.");
+
+            if (sendEmail) {
+                EmailController.sendEmail(AbstractUser.getCurrentUser().getEmail(), "Student report", new File(destiny));
+            }
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
     }
 
 
