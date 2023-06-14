@@ -3,6 +3,7 @@ package com.AdminUniversity.DTO;
 import com.AdminUniversity.Controller.AdminController;
 import com.AdminUniversity.Controller.StudentController;
 import com.AdminUniversity.Controller.TeacherController;
+import com.AdminUniversity.repository.CourseRepository;
 import com.AdminUniversity.repository.Repositories;
 import lombok.*;
 
@@ -228,7 +229,10 @@ public abstract class AbstractUser extends Identifiable {
                                     System.out.println("Send report to your email? yes/no");
                                     boolean sendEmail = sc.next().equalsIgnoreCase("yes");
                                     for (Student st : studentss) {
-                                        studentController.generateStudentReport(new Course(),st, sendEmail);
+                                        for (StudentCourse studentCourse : st.getCoursesSubscribed()) {
+                                            Course course = Repositories.getInstance().getCourseRepository().getById(studentCourse.getIdCourse());
+                                            studentController.generateStudentReport(course,st, sendEmail);
+                                        }
                                     }
                                     System.out.println("Students reports generated successfully.");
                                 }
