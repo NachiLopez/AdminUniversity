@@ -95,6 +95,17 @@ public class AdminController {
         return null;
     }
 
+    public Course getCourseById(int courseId) {
+        ArrayList<Course> courses = getAllCourses();
+
+        for (Course course : courses) {
+            if (course.getId() == courseId) {
+                return course;
+            }
+        }
+        return null;
+    }
+
     public Student getStudentById(int studentId) {
 
         ArrayList<Student> students = getAllStudents();
@@ -140,6 +151,8 @@ public class AdminController {
         return new ArrayList<>(studentList);
     }
 
-
-
+    public ArrayList<Course> getAllCourses() {
+        List<Course> courseList = Repositories.getInstance().getCourseRepository().getDB();
+        return new ArrayList<>(courseList);
+    }
 }
