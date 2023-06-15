@@ -1,6 +1,7 @@
 package com.AdminUniversity.DTO;
 
 import com.AdminUniversity.Controller.AdminController;
+import com.AdminUniversity.Controller.CourseController;
 import com.AdminUniversity.Controller.StudentController;
 import com.AdminUniversity.Controller.TeacherController;
 import com.AdminUniversity.repository.Repositories;
@@ -50,6 +51,7 @@ public abstract class AbstractUser extends Identifiable {
         users.addAll(Repositories.getInstance().getTeacherRepository().getDB());
         TeacherController teacherController = new TeacherController();
         StudentController studentController = new StudentController();
+        CourseController courseController = new CourseController();
         adminController.setTeacherController(teacherController);
 
 
@@ -246,7 +248,7 @@ public abstract class AbstractUser extends Identifiable {
 
 
                                 if (studentToUpdate == null) {
-                                    System.out.println("Teacher not found with ID: " + studentIdToUpdate);
+                                    System.out.println("Student not found with ID: " + studentIdToUpdate);
                                 } else {
 
                                     System.out.println("Enter the new first name:");
@@ -294,19 +296,196 @@ public abstract class AbstractUser extends Identifiable {
 
                                 break;
                             case 11:
-                                System.out.println("11. Assign a course to a teacher and students");
+                                System.out.println("11. Assign a teacher to a course");
+                                int teacherToAssignId = 0, courseToAssignId = 0;
+                                Course courseToAssign = null;
+                                Teacher teacherToAssign = null;
+
+                                if(!Repositories.getInstance().getCourseRepository().getDB().isEmpty()){
+                                    boolean courseValid = false;
+                                    while(!courseValid) {
+                                        System.out.println("Enter the ID of the course:");
+                                        courseToAssignId = sc.nextInt();
+                                        sc.nextLine();
+                                        courseToAssign = adminController.getCourseById(courseToAssignId);
+                                        if (courseToAssign == null) {
+                                            System.out.println("Invalid ID");
+                                        } else {
+                                            courseValid = true;
+                                        }
+                                    }
+                                } else {
+                                    System.out.println("ERROR: There isn't any course in the database");
+                                    break;
+                                }
+                                if(!Repositories.getInstance().getTeacherRepository().getDB().isEmpty()){
+                                    boolean teacherValid = false;
+                                    while(!teacherValid) {
+                                        System.out.println("Enter the ID of the teacher:");
+                                        teacherToAssignId = sc.nextInt();
+                                        sc.nextLine();
+                                        teacherToAssign = adminController.getTeacherById(teacherToAssignId);
+                                        if (teacherToAssign == null) {
+                                            System.out.println("Invalid ID");
+                                        } else {
+                                            teacherValid = true;
+                                        }
+                                    }
+                                }else {
+                                    System.out.println("ERROR: There isn't any teacher in the database");
+                                    break;
+                                }
+
+                                courseToAssign.setTeacher(teacherToAssign);
+
+                                System.out.println("The teacher with ID " + teacherToAssign.getId() + " was assigned to the course with ID " + courseToAssign.getId() + ".");
                                 break;
                             case 12:
-                                System.out.println("12. Add University grades");
+                                System.out.println("12. Add University course");
+                                Course courseCreated = new Course();
+
+                                System.out.println("Enter the name of the course: ");
+                                String courseName = sc.nextLine();
+                                courseCreated.setName(courseName);
+
+                                System.out.println("You want set a teacher in this course? yes/no");
+                                String response = sc.nextLine();
+
+                                if(response.equalsIgnoreCase("yes")){
+                                    if (!Repositories.getInstance().getTeacherRepository().getDB().isEmpty()){
+                                        System.out.println("Ok, there are the teachers in the database");
+                                        for (Teacher allTeachers : Repositories.getInstance().getTeacherRepository().getDB()){
+                                            System.out.println("Teacher ID and Name: " + allTeachers.getId() + ", " + allTeachers.getFirstName() + " " + allTeachers.getLastName());
+                                        }
+                                        boolean teacherValid = false;
+                                        while(!teacherValid) {
+                                            System.out.println("\n Please, enter the ID of the teacher:");
+                                            teacherToAssignId = sc.nextInt();
+                                            sc.nextLine();
+                                            teacherToAssign = adminController.getTeacherById(teacherToAssignId);
+                                            if (teacherToAssign == null) {
+                                                System.out.println("Invalid ID");
+                                            } else {
+                                                teacherValid = true;
+                                                courseCreated.setTeacher(teacherToAssign);
+                                            }
+                                        }
+                                    } else{
+                                        System.out.println("ERROR: There aren't any teacher in the database.");
+                                        break;
+                                    }
+                                } else if (response.equalsIgnoreCase("no")){
+                                    System.out.println("When you need it, you can assign a teacher to the course\n");
+                                } else {
+                                    System.out.println("Invalid option, after assign a teacher.");
+                                }
+
+                                System.out.println("Okay, the course was created and the ID is " + courseCreated.getId());
+                                Repositories.getInstance().getCourseRepository().save(courseCreated);
+                                adminController.addCourse(courseCreated);
                                 break;
                             case 13:
-                                System.out.println(" 13. Query University grades");
+                                System.out.println(" 13. Generate a report of a University course");
+                                Course courseToReport = null;
+                                boolean sendMail = false;
+                                if (!Repositories.getInstance().getCourseRepository().getDB().isEmpty()){
+                                    System.out.println("Select the course you want to generate a report.");
+                                    for (Course courseToUpdate : Repositories.getInstance().getCourseRepository().getDB()){
+                                        System.out.println("Course ID and Name: " + courseToUpdate.getId() + ", " + courseToUpdate.getName());
+                                    }
+                                    boolean courseValid = false;
+                                    while(!courseValid) {
+                                        System.out.println("\n Please, enter the course ID:");
+                                        courseToAssignId = sc.nextInt();
+                                        sc.nextLine();
+                                        courseToReport = adminController.getCourseById(courseToAssignId);
+                                        if (courseToReport == null) {
+                                            System.out.println("Invalid ID");
+                                        } else {
+                                            courseValid = true;
+                                            System.out.println("Do you want to receive a mail with the report? yes/no");
+                                            sendMail = sc.nextLine().equalsIgnoreCase("yes");
+                                        }
+                                    }
+                                    courseController.generateCourseReport(courseToReport, sendMail);
+                                }else {
+                                    System.out.println("There aren't any course in the database.");
+                                }
+
                                 break;
                             case 14:
-                                System.out.println("14. Update University grades");
+                                System.out.println("14. Update University course");
+
+                                if (!Repositories.getInstance().getCourseRepository().getDB().isEmpty()){
+                                    System.out.println("Select the course you want to update.");
+                                    for (Course courseToUpdate : Repositories.getInstance().getCourseRepository().getDB()){
+                                        System.out.println("Course ID and Name: " + courseToUpdate.getId() + ", " + courseToUpdate.getName());
+                                    }
+                                    boolean courseValid = false;
+                                    while(!courseValid) {
+                                        System.out.println("\n Please, enter the course ID:");
+                                        courseToAssignId = sc.nextInt();
+                                        sc.nextLine();
+                                        courseToAssign = adminController.getCourseById(courseToAssignId);
+                                        if (courseToAssign == null) {
+                                            System.out.println("Invalid ID");
+                                        } else {
+                                            courseValid = true;
+                                            System.out.println("Enter the new name course: ");
+                                            courseName = sc.nextLine();
+                                            courseToAssign.setName(courseName);
+
+                                            System.out.println("Do you want change the teacher? yes/no");
+                                            response = sc.nextLine();
+                                            if(response.equalsIgnoreCase("yes")){
+                                                if (!Repositories.getInstance().getTeacherRepository().getDB().isEmpty()){
+                                                    System.out.println("Ok, there are the teachers in the database");
+                                                    for (Teacher allTeachers : Repositories.getInstance().getTeacherRepository().getDB()){
+                                                        System.out.println("Teacher ID and Name: " + allTeachers.getId() + ", " + allTeachers.getFirstName() + " " + allTeachers.getLastName());
+                                                    }
+                                                    boolean teacherValid = false;
+                                                    while(!teacherValid) {
+                                                        System.out.println("\n Please, enter the ID of the teacher:");
+                                                        teacherToAssignId = sc.nextInt();
+                                                        sc.nextLine();
+                                                        teacherToAssign = adminController.getTeacherById(teacherToAssignId);
+                                                        if (teacherToAssign == null) {
+                                                            System.out.println("Invalid ID");
+                                                        } else {
+                                                            teacherValid = true;
+                                                            courseToAssign.setTeacher(teacherToAssign);
+                                                        }
+                                                    }
+                                                } else{
+                                                    System.out.println("ERROR: There aren't any teacher in the database.");
+                                                }
+                                            } else if(response.equalsIgnoreCase("no")) {
+                                                System.out.println("When you need it, you can set a teacher in this course.");
+                                            } else {
+                                                System.out.println("Invalid option, after assign a teacher.");
+                                            }
+                                        }
+                                    }
+
+                                    System.out.println("Course updated.");
+                                } else {
+                                    System.out.println("There aren't any course in the database.");
+                                }
                                 break;
                             case 15:
-                                System.out.println("15. Generate a Report of the University grades ");
+                                System.out.println("15. Generate a Report of the University courses ");
+
+                                if (!Repositories.getInstance().getCourseRepository().getDB().isEmpty()){
+                                    System.out.println("Do you want to receive a mail with the report? yes/no");
+                                    sendMail = sc.nextLine().equalsIgnoreCase("yes");
+                                    for (Course coursesForReport : Repositories.getInstance().getCourseRepository().getDB()){
+                                        courseController.generateCourseReport(coursesForReport, sendMail);
+                                    }
+                                    System.out.println("All courses report are generated.");
+                                } else {
+                                    System.out.println("There aren't any course in the database.");
+                                }
+
                                 break;
                             case 0:
                                 System.out.println("Thanks for use our system!!");
@@ -356,10 +535,10 @@ public abstract class AbstractUser extends Identifiable {
 
                         "        ===============COURSE===============\n" +
                         "        11. Assign a course to a teacher and students\n" +
-                        "        12. Add University grades \n" +
-                        "        13. Query University grades \n" +
-                        "        14. Update University grades \n" +
-                        "        15. Generate a Report of the University grades \n" +
+                        "        12. Add University course \n" +
+                        "        13. Generate a Report of a University course \n" +
+                        "        14. Update University course \n" +
+                        "        15. Generate a Report of all University courses \n" +
 
                         "        0. Salir\n" +
                         "        ==============================");
