@@ -10,6 +10,7 @@ import lombok.*;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -29,7 +30,7 @@ public abstract class AbstractUser extends Identifiable {
     private String firstName;
     private String lastName;
     private String address;
-    private Set<Course> courses;
+    private Set<Course> courses = new HashSet<>();
 
 
     public AbstractUser(String user, String password, String email, String firstName, String lastName, String address) {
@@ -39,6 +40,10 @@ public abstract class AbstractUser extends Identifiable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
+    }
+
+    public void addCourse(Course course) {
+        courses.add(course);
     }
 
 
@@ -356,7 +361,7 @@ public abstract class AbstractUser extends Identifiable {
                                 break;
                             case 12:
                                 System.out.println("12. Add University course");
-                                Course courseCreated = new Course();
+                                Course courseCreated = new Course("");
 
                                 System.out.println("Enter the name of the course: ");
                                 String courseName = sc.nextLine();
@@ -554,7 +559,7 @@ public abstract class AbstractUser extends Identifiable {
                     }
 
                 case Teacher teacher -> {
-                    // todo: teacher menu
+
                 }
 
                 case Student student -> {

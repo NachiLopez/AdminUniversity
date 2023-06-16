@@ -19,8 +19,8 @@ public class EmailController {
         Session session = Session.getDefaultInstance(props, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("university@mail.jmarango.co",
-                        "c13aabc1a5c69f2bb474c50a8831e853-af778b4b-dace6b6e");
+                return new PasswordAuthentication("kodigo@mail2.jmarango.co",
+                        "kodigo12345678");
 
             }
         });

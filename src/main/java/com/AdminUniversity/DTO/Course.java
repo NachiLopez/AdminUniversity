@@ -8,6 +8,7 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
+
 @ToString
 public class Course extends Identifiable {
 
@@ -15,8 +16,9 @@ public class Course extends Identifiable {
     private Teacher teacher;
     private Set<Student> students;
 
-    public Course() {
+    public Course(String name) {
         students=new HashSet<>();
+        this.name=name;
     }
 
     public void addStudent(Student student) {
