@@ -29,6 +29,7 @@ public abstract class AbstractUser extends Identifiable {
     private String firstName;
     private String lastName;
     private String address;
+    private Set<Course> courses;
 
 
     public AbstractUser(String user, String password, String email, String firstName, String lastName, String address) {
