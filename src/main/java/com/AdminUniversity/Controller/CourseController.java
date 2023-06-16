@@ -3,6 +3,7 @@ package com.AdminUniversity.Controller;
 import com.AdminUniversity.DAO.InterfaceCourse;
 import com.AdminUniversity.DTO.*;
 import com.AdminUniversity.repository.Repositories;
+import com.AdminUniversity.repository.TeacherRepository;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
@@ -73,6 +74,8 @@ public class CourseController implements InterfaceCourse {
     @Override
     public void setTeacher(Teacher teacher, Course course) {
         if(course.getTeacher() == null){
+            teacher.addCourse(course);
+            Repositories.getInstance().getTeacherRepository().save(teacher);
             course.setTeacher(teacher);
 
         } else {

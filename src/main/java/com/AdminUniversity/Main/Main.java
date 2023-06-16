@@ -25,7 +25,7 @@ public class Main {
         Admin admin = Admin.getInstanceAdmin("admin", "admin", "kodigoteam4@gmail.com", "", "", "");
         Repositories.getInstance().getAdminRepository().save(admin);
 
-        Course course = Repositories.getInstance().getCourseRepository().save(new Course());
+        Course course = Repositories.getInstance().getCourseRepository().save(new Course("Curso 1"));
         new CourseController().setTeacher(teacher, course);
         new StudentController().suscribeCourse(course, student);
 
