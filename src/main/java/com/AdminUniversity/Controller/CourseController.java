@@ -25,15 +25,19 @@ public class CourseController implements InterfaceCourse {
             document.add(new Paragraph("Course Report"));
             document.add(new Paragraph("ID Course: " + course.getId()));
             document.add(new Paragraph("Name: " + course.getName()));
-            document.add(new Paragraph("Teacher: " + course.getTeacher()));
-            document.add(new Paragraph("Student list of this course:"));
-            for (Student students : course.getStudents()){
-                document.add(new Paragraph("-------------------------------------"));
-                document.add(new Paragraph("Name: " + students.getFirstName() + " " + students.getLastName()));
-                document.add(new Paragraph("User: " + students.getUser()));
-                document.add(new Paragraph("Email: "+ students.getEmail()));
-            }
+            document.add(new Paragraph("Teacher: " + course.getTeacher().getFirstName() + " " + course.getTeacher().getLastName()));
             document.add(new Paragraph("-------------------------------------"));
+            if (course.getStudents() != null){
+                document.add(new Paragraph("Student list of this course:"));
+                for (Student students : course.getStudents()){
+                    document.add(new Paragraph("Name: " + students.getFirstName() + " " + students.getLastName()));
+                    document.add(new Paragraph("User: " + students.getUser()));
+                    document.add(new Paragraph("Email: "+ students.getEmail()));
+                    document.add(new Paragraph("-------------------------------------"));
+                }
+            } else{
+                document.add(new Paragraph("This course doesn't have any student."));
+            }
 
             document.close();
             System.out.println("Course report generated successfully.");

@@ -82,7 +82,7 @@ public class StudentController implements InterfaceStudent {
     @Override
     public void suscribeCourse(Course course, Student student) {
         if(!course.getStudents().contains(student)){
-            StudentCourse studentCourse = new StudentCourse(student.getId(), course.getId());
+            StudentCourse studentCourse = new StudentCourse(student.getId(), course.getId(), course.getName());
             Repositories.getInstance().getStudentRepository().getById(student.getId()).getCoursesSubscribed().add(studentCourse);
             course.getStudents().add(student);
         } else {
