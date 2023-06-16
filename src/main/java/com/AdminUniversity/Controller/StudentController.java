@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Set;
 
 public class StudentController implements InterfaceStudent {
 
@@ -82,8 +83,12 @@ public class StudentController implements InterfaceStudent {
     @Override
     public void suscribeCourse(Course course, Student student) {
         if(!course.getStudents().contains(student)){
+            student = Repositories.getInstance().getStudentRepository().getById(student.getId());
             StudentCourse studentCourse = new StudentCourse(student.getId(), course.getId(), course.getName());
-            Repositories.getInstance().getStudentRepository().getById(student.getId()).getCoursesSubscribed().add(studentCourse);
+            student.addCourse(studentCourse);
+            course.addStudent(student);
+            Repositories.getInstance().getCourseRepository().save(course);
+            Repositories.getInstance().getStudentRepository().save(student);
             course.getStudents().add(student);
         } else {
             System.out.println("This student already is subscribed in this course.");
@@ -94,7 +99,10 @@ public class StudentController implements InterfaceStudent {
     @Override
     public void unsuscribeCourse(Course course, Student student) {
         if(course.getStudents().contains(student)){
-            Repositories.getInstance().getStudentRepository().getById(student.getId()).getCoursesSubscribed().remove(student.getSpecificCourse(course, student));
+            student = Repositories.getInstance().getStudentRepository().getById(student.getId());
+            student.removeCourse(student.getSpecificCourse(course, student));
+            Repositories.getInstance().getCourseRepository().save(course);
+            Repositories.getInstance().getStudentRepository().save(student);
             course.getStudents().remove(student);
         } else {
             System.out.println("This student already is not in this course.");

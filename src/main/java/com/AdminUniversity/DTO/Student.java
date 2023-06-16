@@ -22,6 +22,14 @@ public class Student extends AbstractUser  {
         this.idStudent = nextIdStudent++;
     }
 
+    public void addCourse(StudentCourse course) {
+        coursesSubscribed.add(course);
+    }
+
+    public void removeCourse(StudentCourse course) {
+        coursesSubscribed.remove(course);
+    }
+
     public StudentCourse getSpecificCourse(Course course, Student student) {
         StudentCourse scReturn = null;
         for (StudentCourse sc : student.getCoursesSubscribed()) {
