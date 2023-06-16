@@ -2,6 +2,8 @@ package com.AdminUniversity.DTO;
 
 import com.AdminUniversity.DAO.InterfaceCourse;
 import lombok.*;
+
+import java.util.HashSet;
 import java.util.Set;
 @Getter
 @Setter
@@ -9,15 +11,22 @@ import java.util.Set;
 @ToString
 public class Course extends Identifiable {
 
-    private static int nextId = 1;
     private String name;
     private Teacher teacher;
     private Set<Student> students;
 
     public Course() {
-        this.id = nextId++;
+        students=new HashSet<>();
     }
 
+    public void addStudent(Student student) {
+        students.add(student);
+    }
+
+
+    public void removeStudent(Student student) {
+        students.remove(student);
+    }
 
 }
 

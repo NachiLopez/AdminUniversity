@@ -53,20 +53,20 @@ public class CourseController implements InterfaceCourse {
     }
 
     @Override
-    public void addStudent(Student student) {
-        if(!Repositories.getInstance().getStudentRepository().getDB().contains(student)){
-            Repositories.getInstance().getStudentRepository().save(student);
+    public void addStudent(Student student, Course course) {
+        if(student.getCoursesSubscribed().parallelStream().noneMatch(course1 -> course1.getIdCourse()==course.getId())) {
+            new StudentController().suscribeCourse(course, student);
         } else {
             System.out.println("This student already is in this course");
         }
     }
 
     @Override
-    public void removeStudent(Student student) {
-        if(Repositories.getInstance().getStudentRepository().getDB().contains(student)){
-            Repositories.getInstance().getStudentRepository().delete(student);
+    public void removeStudent(Student student, Course course) {
+        if(student.getCoursesSubscribed().parallelStream().anyMatch(course1 -> course1.getIdCourse()==course.getId())){
+            new StudentController().unsuscribeCourse(course, student);
         } else {
-            System.out.println("This student already is not in this course");
+            System.out.println("This student is not in this course");
         }
     }
 
@@ -74,6 +74,7 @@ public class CourseController implements InterfaceCourse {
     public void setTeacher(Teacher teacher, Course course) {
         if(course.getTeacher() == null){
             course.setTeacher(teacher);
+
         } else {
             System.out.println("This course already has a teacher. First remove the actual teacher and after assign the new teacher");
         }
