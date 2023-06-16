@@ -16,7 +16,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @ToString
 public abstract class AbstractUser extends Identifiable {
 
@@ -58,9 +57,9 @@ public abstract class AbstractUser extends Identifiable {
 
         System.out.println("ENTER CREDENTIALS!! ");
         System.out.println("Enter the username: " );
-        String username = sc.next();
+        String username = sc.nextLine();
         System.out.println("Enter Password: ");
-        String password = sc.next();
+        String password = sc.nextLine();
 
         AbstractUser userLoggedIn=null;
         for (AbstractUser currentUser : users) {
@@ -82,23 +81,24 @@ public abstract class AbstractUser extends Identifiable {
                         menuAdmin();
                         System.out.println("ENTER THE OPTION: ");
                         int option = sc.nextInt();
+                        sc.nextLine();
 
                         switch (option) {
                             case 1:
                                 System.out.println("1. Create a Teacher");
                                 System.out.println("Enter teacher details:");
                                 System.out.print("Username: ");
-                                String teacherUsername = sc.next();
+                                String teacherUsername = sc.nextLine();
                                 System.out.print("Password: ");
-                                String teacherPassword = sc.next();
+                                String teacherPassword = sc.nextLine();
                                 System.out.print("Email: ");
-                                String teacherEmail = sc.next();
+                                String teacherEmail = sc.nextLine();
                                 System.out.print("First Name: ");
-                                String teacherFirstName = sc.next();
+                                String teacherFirstName = sc.nextLine();
                                 System.out.print("Last Name: ");
-                                String teacherLastName = sc.next();
+                                String teacherLastName = sc.nextLine();
                                 System.out.print("Address: ");
-                                String teacherAddress = sc.next();
+                                String teacherAddress = sc.nextLine();
                                 Teacher teacher = new Teacher(teacherUsername, teacherPassword, teacherEmail, teacherFirstName, teacherLastName, teacherAddress);
                                 adminController.addTeacher(teacher);
                                 break;
@@ -117,12 +117,11 @@ public abstract class AbstractUser extends Identifiable {
                                 ArrayList<Teacher> teacherss = adminController.getAllTeachers();
                                 System.out.println("3. Generate a Report of the Teachers");
 
-
                                 if (teacherss.isEmpty()) {
                                     System.out.println("Sorry, this list doesn't have any teachers!!");
                                 } else {
                                     System.out.println("Send report to your email? yes/no");
-                                    boolean sendEmail = sc.next().equalsIgnoreCase("yes");
+                                    boolean sendEmail = sc.nextLine().equalsIgnoreCase("yes");
                                     for (Teacher tch : teacherss) {
                                         teacherController.generateTeacherReport(tch, sendEmail);
                                     }
@@ -196,17 +195,17 @@ public abstract class AbstractUser extends Identifiable {
                                 System.out.println("6. Create a Student");
                                 System.out.println("Enter teacher details:");
                                 System.out.print("Username: ");
-                                String studentUsername = sc.next();
+                                String studentUsername = sc.nextLine();
                                 System.out.print("Password: ");
-                                String studentPassword = sc.next();
+                                String studentPassword = sc.nextLine();
                                 System.out.print("Email: ");
-                                String studentEmail = sc.next();
+                                String studentEmail = sc.nextLine();
                                 System.out.print("First Name: ");
-                                String studentFirstName = sc.next();
+                                String studentFirstName = sc.nextLine();
                                 System.out.print("Last Name: ");
-                                String studentLastName = sc.next();
+                                String studentLastName = sc.nextLine();
                                 System.out.print("Address: ");
-                                String studentAddress = sc.next();
+                                String studentAddress = sc.nextLine();
                                 Student student = new Student(studentUsername, studentPassword, studentEmail, studentFirstName, studentLastName, studentAddress);
                                 adminController.addStudent(student);
                                 break;
@@ -216,8 +215,19 @@ public abstract class AbstractUser extends Identifiable {
                                 if (students.isEmpty()) {
                                     System.out.println("Sorry, this list don´t have any students!!");
                                 } else {
-                                    for (int i = 0; i < students.size(); i++) {
-                                        System.out.println(students.get(i));
+                                    for (Student stud : Repositories.getInstance().getStudentRepository().getDB()) {
+                                        System.out.println(
+                                                "-----------------------" +
+                                                "ID: " + stud.getId() +
+                                                "Name: " + stud.getFirstName() + " " + stud.getLastName() +
+                                                "User: " + stud.getUser() +
+                                                "Email: " + stud.getEmail() +
+                                                "Address: " + stud.getAddress() +
+                                                "Courses subscribed: "
+                                        );
+                                        for(StudentCourse courses : stud.getCoursesSubscribed()){
+                                            System.out.println("Course ID and Name:" + courses.getIdCourse() + " " + courses.getNameCourse());
+                                        }
                                     }
                                 }
                                 break;
@@ -229,7 +239,7 @@ public abstract class AbstractUser extends Identifiable {
                                     System.out.println("Sorry, this list doesn't have any Students!!");
                                 } else {
                                     System.out.println("Send report to your email? yes/no");
-                                    boolean sendEmail = sc.next().equalsIgnoreCase("yes");
+                                    boolean sendEmail = sc.nextLine().equalsIgnoreCase("yes");
                                     for (Student st : studentss) {
                                         for (StudentCourse studentCourse : st.getCoursesSubscribed()) {
                                             Course course = Repositories.getInstance().getCourseRepository().getById(studentCourse.getIdCourse());
@@ -477,7 +487,7 @@ public abstract class AbstractUser extends Identifiable {
                                 }
                                 break;
                             case 15:
-                                System.out.println("15. Generate a Report of the University courses ");
+                                System.out.println("15. Generate a Report of the University courses.");
 
                                 if (!Repositories.getInstance().getCourseRepository().getDB().isEmpty()){
                                     System.out.println("Do you want to receive a mail with the report? yes/no");
@@ -488,6 +498,44 @@ public abstract class AbstractUser extends Identifiable {
                                     System.out.println("All courses report are generated.");
                                 } else {
                                     System.out.println("There aren't any course in the database.");
+                                }
+
+                                break;
+                            case 16:
+                                System.out.println("16. Assign a student to course.");
+
+                                if(!Repositories.getInstance().getCourseRepository().getDB().isEmpty()){
+                                    int studentToAssignId = 0;
+                                    courseToAssign = null;
+                                    Student studentToAssign = null;
+                                    boolean courseValid = false;
+                                    while(!courseValid) {
+                                        System.out.println("Enter the ID of the course:\n");
+                                        courseToAssignId = sc.nextInt();
+                                        sc.nextLine();
+                                        courseToAssign = adminController.getCourseById(courseToAssignId);
+                                        if (courseToAssign == null) {
+                                            System.out.println("Invalid ID");
+                                        } else {
+                                            courseValid = true;
+                                        }
+                                    }
+                                    boolean studentValid = false;
+                                    while(!studentValid) {
+                                        System.out.println("\n Please, enter the ID of the student:");
+                                        studentToAssignId = sc.nextInt();
+                                        sc.nextLine();
+                                        studentToAssign = adminController.getStudentById(studentToAssignId);
+                                        if (studentToAssign == null) {
+                                            System.out.println("Invalid ID");
+                                        } else {
+                                            studentValid = true;
+                                        }
+                                    }
+                                    studentController.suscribeCourse(courseToAssign, studentToAssign);
+                                    System.out.println("The student with ID " + studentToAssign.getId() + " was subscribed to course with ID " + courseToAssign.getId());
+                                } else{
+                                    System.out.println("ERROR: There aren't any course in the database.");
                                 }
 
                                 break;
@@ -538,11 +586,12 @@ public abstract class AbstractUser extends Identifiable {
                         "        10. Delete a Student\n" +
 
                         "        ===============COURSE===============\n" +
-                        "        11. Assign a course to a teacher and students\n" +
+                        "        11. Assign a course to a teacher\n" +
                         "        12. Add University course \n" +
                         "        13. Generate a Report of a University course \n" +
                         "        14. Update University course \n" +
                         "        15. Generate a Report of all University courses \n" +
+                        "        16. Assign a student to course\n" +
 
                         "        0. Salir\n" +
                         "        ==============================");

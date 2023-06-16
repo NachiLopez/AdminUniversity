@@ -20,8 +20,6 @@ public class AdminController {
         } else {
             System.out.println("This student already is in the database.");
         }
-        Repositories.getInstance().getStudentRepository().save(student);
-
     }
 
 
